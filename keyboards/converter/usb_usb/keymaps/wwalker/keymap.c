@@ -15,6 +15,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+// #include "platforms/gpio.h"
 #include QMK_KEYBOARD_H
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
@@ -48,11 +49,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [1] = LAYOUT_all(
                       _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
     KC_GRV,          _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,           _______, _______, _______,    _______, _______, _______, _______,    _______,
-    _______,   KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,  KC_F6,  KC_F7,  KC_F8,   KC_F9,    KC_F10,  _______, _______, _______, TG(1),  _______, _______, _______,    _______, _______, _______, _______,    _______, _______,
+    _______,   KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,  KC_F6,  KC_F7,  KC_F8,   KC_F9,    KC_F10,  _______, _______, _______, TO(0),  _______, _______, _______,    _______, _______, _______, _______,    _______, _______,
     _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, KC_PSCR, _______, _______,          _______,  _______, _______, _______,    _______, _______, _______, _______,    _______, _______,
     _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,          _______, _______,                                _______, _______, _______, _______,    _______, _______,
     _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,          _______, _______,           _______,             _______, _______, _______, _______,    _______, _______,
-    _______, _______, KC_LALT, _______, _______,          _______,          _______, _______, _______, _______, _______, _______, KC_RCTL,  _______, _______, _______,    _______,          _______, _______,    _______, _______
+    TG(2), _______, TG(1), _______, _______,          _______,          _______, _______, _______, _______, _______, _______, KC_RCTL,  _______, _______, _______,    _______,          _______, _______,    _______, _______
     ),
     [2] = LAYOUT_all(
                       _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
@@ -64,3 +65,45 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     _______, _______, _______, _______, _______,          _______,          _______, _______, _______, _______, _______, _______, _______,  _______, _______, _______,    _______,          _______, _______,    _______, _______
     ),
 };
+
+void keyboard_pre_init_user(void) {
+    setPinOutput(D5);
+    setPinOutput(B0);
+}
+layer_state_t layer_state_set_user(layer_state_t state) {
+    if(IS_LAYER_ON_STATE(state, 2)) {
+        writePinLow(D5);
+    }
+    else {
+        writePinHigh(D5);
+    }
+    if(IS_LAYER_ON_STATE(state, 1)) {
+        writePinLow(B0);
+    }
+    else {
+        writePinHigh(B0);
+    }
+    return state;
+}
+
+/* void keyboard_pre_init_user(void) { */
+/*     setPinOutput(D5);  // initialize B0 for LED */
+/*     setPinOutput(B0);  // initialize B1 for LED */
+/* } */
+
+/* layer_state_t layer_state_set_user(layer_state_t state) { */
+/*     switch (get_highest_layer(state)) { */
+/*         case _RAISE: */
+/*             writePinHigh(B0); */
+/*             writePinLow(D5); */
+/*             break; */
+/*         case _LOWER: */
+/*             writePinHigh(D5); */
+/*             writePinLow(B0); */
+/*             break; */
+/*         default: */
+/*             writePinLow(B0; */
+/*             writePinLow(D5); */
+/*             break; */
+/*     } */
+
