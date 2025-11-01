@@ -80,25 +80,26 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     ),
 };
 
-void keyboard_pre_init_user(void) {
-    setPinOutput(D5);
-    setPinOutput(B0);
-}
-layer_state_t layer_state_set_user(layer_state_t state) {
-    if(IS_LAYER_ON_STATE(state, 2)) {
-        writePinLow(D5);
-    }
-    else {
-        writePinHigh(D5);
-    }
-    if(IS_LAYER_ON_STATE(state, 1)) {
-        writePinLow(B0);
-    }
-    else {
-        writePinHigh(B0);
-    }
-    return state;
-}
+// void keyboard_pre_init_user(void) {
+//     setPinOutput(D5);
+//     setPinOutput(B0);
+// }
+// 
+// layer_state_t layer_state_set_user(layer_state_t state) {
+//     if(IS_LAYER_ON_STATE(state, 1)) {
+//         writePinLow(D5);
+//     }
+//     else {
+//         writePinHigh(D5);
+//     }
+//     if(IS_LAYER_ON_STATE(state, 2)) {
+//         writePinLow(B0);
+//     }
+//     else {
+//         writePinHigh(B0);
+//     }
+//     return state;
+// }
 
 /* void keyboard_pre_init_user(void) { */
 /*     setPinOutput(D5);  // initialize B0 for LED */
